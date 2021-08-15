@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ForcePush</string>
+    <string name="welcome">Welcome to Force Push!</string>
+    <string name="Login">login</string>
 </resources>
