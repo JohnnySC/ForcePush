@@ -49,12 +49,12 @@ class LoginViewModelTest {
         }
     }
 
-    private inner class TestInteractor : LoginInteractor {
+    private inner class TestInteractor : LoginInteractor {//todo fix tests
         override fun authorized() = false
-        override suspend fun login(loginWrapper: LoginWrapper) = loginWrapper.login()
+        override suspend fun login(loginWrapper: LoginEngine) = loginWrapper.login()
     }
 
-    private inner class TestLoginWrapper(private val success: Boolean) : LoginWrapper {
+    private inner class TestLoginWrapper(private val success: Boolean) : LoginEngine {
         override suspend fun login() =
             if (success) Auth.Base(emptyMap()) else Auth.Fail(IllegalStateException("error"))
     }

@@ -12,4 +12,9 @@ interface AbstractView {
 
         fun show(text: String)
     }
+
+    interface Image : AbstractView {
+
+        fun load(url: String)
+    }
 }

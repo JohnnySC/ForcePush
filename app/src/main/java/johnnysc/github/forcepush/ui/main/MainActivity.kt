@@ -1,42 +1,43 @@
 package johnnysc.github.forcepush.ui.main
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.squareup.picasso.Picasso
+import android.view.MenuItem
+import androidx.fragment.app.FragmentManager
 import johnnysc.github.forcepush.R
+import johnnysc.github.forcepush.databinding.ActivityMainBinding
 import johnnysc.github.forcepush.ui.core.BaseActivity
-import johnnysc.github.forcepush.ui.login.LoginActivity
 
 /**
- * //todo make this better
  * @author Asatryan on 14.08.2021
  **/
 class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val avatar = findViewById<ImageView>(R.id.avatarImageView)
+        val viewModel = viewModel(MainViewModel::class.java, this)
 
-        val sharedPreferences = getSharedPreferences("ForceAppSharedPref", Context.MODE_PRIVATE)
-        val profile = sharedPreferences.getString("profile", "")
-        Firebase.auth.currentUser?.let {
-            val text = it.displayName + "\n" + profile
-            findViewById<TextView>(R.id.textView).text = text
-            Picasso.get().load(it.photoUrl).into(avatar)
+        val listener: (item: MenuItem) -> Boolean = {
+            viewModel.changeScreen(it.itemId)
+            true
         }
 
-        findViewById<View>(R.id.signOutButton).setOnClickListener {
-            Firebase.auth.signOut()
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+        viewModel.observe(this) {
+            binding.bottomNavView.setOnItemSelectedListener(null)
+            binding.bottomNavView.selectedItemId = it.id
+            val fragment = viewModel.getFragment(it.id)
+            if (supportFragmentManager.canReplace(fragment))
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit()
+            binding.bottomNavView.setOnItemSelectedListener(listener)
         }
+        viewModel.init()
     }
 }
+
+
+private fun FragmentManager.canReplace(fragment: BaseFragment<*>) =
+    fragments.isEmpty() || !(fragments.last() as BaseFragment<*>).matches(fragment.name())

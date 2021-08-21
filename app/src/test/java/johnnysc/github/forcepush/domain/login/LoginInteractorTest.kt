@@ -1,9 +1,10 @@
 package johnnysc.github.forcepush.domain.login
 
 import johnnysc.github.forcepush.core.TextMapper
-import johnnysc.github.forcepush.data.LoginRepository
+import johnnysc.github.forcepush.data.login.LoginRepository
+import johnnysc.github.forcepush.data.login.UserInitial
 import johnnysc.github.forcepush.ui.login.Auth
-import johnnysc.github.forcepush.ui.login.LoginWrapper
+import johnnysc.github.forcepush.ui.login.LoginEngine
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -37,7 +38,7 @@ class LoginInteractorTest {
         val actual = interactor.login(TestLoginWrapper(false))
         val expected = Auth.Fail(exception)
         assertEquals(expected, actual)
-        val expectedString = expected.map(TestTextMapper())
+        val expectedString = expected.map(TestTextMapper()) //todo fix tests
         val actualString = actual.map(TestTextMapper())
         assertEquals(expectedString, actualString)
     }
@@ -65,14 +66,14 @@ class LoginInteractorTest {
     }
 
     private inner class TestRepository(private val authorized: Boolean = false) : LoginRepository {
-        var saved: String = ""
-        override fun user() = if (authorized) Object() else null
-        override fun save(data: String) {
-            saved = data
+        var saved: UserInitial = UserInitial()
+        override suspend fun saveUser(user: UserInitial) {
+            saved = user
         }
+        override fun user() = if (authorized) Object() else null
     }
 
-    private inner class TestLoginWrapper(private val success: Boolean) : LoginWrapper {
+    private inner class TestLoginWrapper(private val success: Boolean) : LoginEngine {
         override suspend fun login() =
             if (success) Auth.Base(HashMap<String, Any>().apply {
                 put("bio", "test bio")
