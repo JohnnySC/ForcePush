@@ -28,11 +28,6 @@ class FPApp : Application() {
             SafetyNetAppCheckProviderFactory.getInstance()
         )
         coreModule = CoreModule.Base(this)
-        Firebase.database(DATABASE_URL)
-            .reference.root.addListenerForSingleValueEvent(EmptyDataListener())
-
-        Firebase.database(DATABASE_URL).reference.root.child("users")
-            .addListenerForSingleValueEvent(EmptyDataListener())
     }
 
     fun <T : ViewModel> viewModel(modelClass: Class<T>, owner: ViewModelStoreOwner): T =

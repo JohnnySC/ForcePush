@@ -2,9 +2,8 @@ package johnnysc.github.forcepush.data.login
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import johnnysc.github.forcepush.sl.core.DATABASE_URL
+import johnnysc.github.forcepush.core.FirebaseDatabaseProvider
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -18,12 +17,13 @@ interface LoginRepository {
 
     fun user(): Any?
 
-    class Base : LoginRepository {
+    class Base(private val firebaseDatabaseProvider: FirebaseDatabaseProvider) : LoginRepository {
         override fun user() = Firebase.auth.currentUser
         override suspend fun saveUser(user: UserInitial) {
-            val value =
-                Firebase.database(DATABASE_URL)
-                    .reference.root.child("users").child(user()!!.uid).setValue(user)
+            val value = firebaseDatabaseProvider.provideDatabase()
+                .child("users")
+                .child(user()!!.uid)
+                .setValue(user)
             handleResult(value)
         }
 

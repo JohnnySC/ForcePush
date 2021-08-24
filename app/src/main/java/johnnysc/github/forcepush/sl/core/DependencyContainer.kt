@@ -16,10 +16,10 @@ interface DependencyContainer {
     class Base(private val coreModule: CoreModule) : DependencyContainer {
 
         override fun module(feature: Feature) = when (feature) {
-            Feature.LOGIN -> LoginModule()
+            Feature.LOGIN -> LoginModule(coreModule)
             Feature.MAIN -> MainModule()
-            Feature.SEARCH -> SearchModule()
-            Feature.MY_PROFILE -> MyProfileModule()
+            Feature.SEARCH -> SearchModule(coreModule)
+            Feature.MY_PROFILE -> MyProfileModule(coreModule)
             else -> throw IllegalStateException("unknown feature $feature")
         }
     }

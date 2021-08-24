@@ -18,31 +18,26 @@ class LoginViewModel(
     private val dispatchersMain: CoroutineDispatcher = Dispatchers.Main,
 ) : BaseViewModel<LoginCommunication, LoginUi>(communication) {
 
-    fun login(login: LoginEngine) {
+    fun login(engine: LoginEngine) {
+        handleResult { interactor.login(engine) }
+    }
+
+    fun init(engine: LoginEngine) {
+        if (interactor.authorized())
+            handleResult { interactor.signIn(engine) }
+        else
+            communication.map(LoginUi.Initial)
+    }
+
+    private fun handleResult(block: suspend () -> Auth) {
         communication.map(LoginUi.Progress())
         viewModelScope.launch(dispatchersIO) {
-            val result = interactor.login(login)
+            val result = block()
             val resultUi = if (result is Auth.Fail)
                 LoginUi.Failed(result.e.message ?: "")//todo improve it
             else
                 LoginUi.Success
             withContext(dispatchersMain) { communication.map(resultUi) }
-        }
-    }
-
-    fun init(signIn: LoginEngine) {
-        if (interactor.authorized()) {
-            communication.map(LoginUi.Progress())
-            viewModelScope.launch(dispatchersIO) {
-                val result = interactor.signIn(signIn)
-                val resultUi = if (result is Auth.Fail)
-                    LoginUi.Failed(result.e.message ?: "")//todo improve it
-                else
-                    LoginUi.Success
-                withContext(dispatchersMain) { communication.map(resultUi) }
-            }
-        } else {
-            communication.map(LoginUi.Initial())
         }
     }
 }

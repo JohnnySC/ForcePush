@@ -12,7 +12,7 @@ interface LoginUi : Abstract.UiObject {
 
     object Success : LoginUi
 
-    class Initial : LoginUi {
+    object Initial : LoginUi {
         override fun map(error: AbstractView.Text, progress: AbstractView, button: AbstractView) {
             error.hide()
             progress.hide()
