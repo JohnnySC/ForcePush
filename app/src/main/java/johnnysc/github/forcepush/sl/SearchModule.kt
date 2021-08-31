@@ -1,5 +1,6 @@
 package johnnysc.github.forcepush.sl
 
+import johnnysc.github.forcepush.data.chat.UserId
 import johnnysc.github.forcepush.data.search.SearchUserRepository
 import johnnysc.github.forcepush.sl.core.BaseModule
 import johnnysc.github.forcepush.sl.core.CoreModule
@@ -14,6 +15,10 @@ class SearchModule(private val coreModule: CoreModule) : BaseModule<SearchViewMo
     override fun viewModel() = SearchViewModel(
         SearchCommunication.Base(),
         SearchResultsMapper.Base(),
-        SearchUserRepository.Base(coreModule.firebaseDatabaseProvider())
+        SearchUserRepository.Base(
+            coreModule.firebaseDatabaseProvider(),
+            UserId(coreModule.provideSharedPreferences())
+        ),
+        coreModule.navigationCommunication()
     )
 }

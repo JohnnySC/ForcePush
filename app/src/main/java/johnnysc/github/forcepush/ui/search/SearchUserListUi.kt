@@ -17,6 +17,9 @@ interface SearchUserListUi : Abstract.UiObject,
 }
 
 interface SearchUserUi {
+
+    fun chat(chat: Chat) = Unit
+
     fun map(
         avatar: AbstractView.Image,
         userLogin: AbstractView.Text,
@@ -24,10 +27,12 @@ interface SearchUserUi {
     ) = Unit
 
     class Base(
-        private val id: String,//todo use to open profile
+        private val id: String,
         private val name: String,
         private val photoUrl: String,
     ) : SearchUserUi {
+
+        override fun chat(chat: Chat) = chat.startChatWith(id)
 
         override fun map(
             avatar: AbstractView.Image,
@@ -35,12 +40,17 @@ interface SearchUserUi {
             userName: AbstractView.Text,
         ) {
             avatar.load(photoUrl)
-            userLogin.show(id)
-            userName.show(name)
+            userLogin.map(id)
+            userName.map(name)
         }
     }
 
     class Search : SearchUserUi
     class Empty : SearchUserUi
     class NoResults : SearchUserUi
+}
+
+interface Chat {
+
+    fun startChatWith(userId: String)
 }

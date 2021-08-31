@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import johnnysc.github.forcepush.R
 import johnnysc.github.forcepush.databinding.FragmentSearchBinding
 import johnnysc.github.forcepush.sl.core.Feature
+import johnnysc.github.forcepush.ui.core.ClickListener
 import johnnysc.github.forcepush.ui.main.BaseFragment
 
 /**
@@ -32,7 +33,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.searchView.setOnQueryTextListener(SimpleQueryListener(viewModel))
-        val adapter = SearchUserAdapter()
+        val adapter = SearchUserAdapter(OpenChat())
         binding.recyclerView.adapter = adapter
         viewModel.observe(this) { it.map(adapter) }
         viewModel.init()
@@ -42,5 +43,9 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         super.onDestroyView()
         binding.searchView.setOnQueryTextListener(null)
         _binding = null
+    }
+
+    private inner class OpenChat : ClickListener<SearchUserUi> {
+        override fun click(item: SearchUserUi) = item.chat(viewModel)
     }
 }

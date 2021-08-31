@@ -21,8 +21,8 @@ interface MyProfileUi : Abstract.UiObject {
             login: AbstractView.Text,
             avatar: AbstractView.Image,
         ) {
-            name.show(userName)
-            login.show(userLogin)
+            name.map(userName)
+            login.map(userLogin)
             avatar.load(photoUrl)
         }
     }

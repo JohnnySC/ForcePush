@@ -18,9 +18,9 @@ class CustomTextView : androidx.appcompat.widget.AppCompatTextView, AbstractView
     )
     //endregion
 
-    override fun show(text: String) {
+    override fun map(data: String) {
         show()
-        setText(text)
+        text = data
     }
 
     override fun show() {

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <johnnysc.github.forcepush.ui.core.CustomProgressBar
+        android:id="@+id/progressBar"
+        android:layout_marginEnd="@dimen/margin_8"
+        app:layout_constraintBottom_toBottomOf="@id/messageTextView"
+        app:layout_constraintEnd_toStartOf="@id/messageTextView"
+        android:layout_width="@dimen/size24"
+        android:layout_height="@dimen/size24" />
+
+    <johnnysc.github.forcepush.ui.chat.MyMessageView
+        android:id="@+id/iconView"
+        android:layout_marginEnd="@dimen/margin_8"
+        app:layout_constraintBottom_toBottomOf="@id/messageTextView"
+        app:layout_constraintEnd_toStartOf="@id/messageTextView"
+        android:src="@drawable/ic_double_check_black_24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <johnnysc.github.forcepush.ui.core.CustomTextView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/messageTextView"
+        android:layout_width="wrap_content"
+        android:maxWidth="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginBottom="@dimen/margin_8"
+        android:layout_marginEnd="@dimen/margin_8"
+        android:layout_marginStart="@dimen/margin_72"
+        android:background="@drawable/my_message_bubble"
+        android:padding="@dimen/margin_8"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        tools:text="Hello, how are you doing there?" />
+</androidx.constraintlayout.widget.ConstraintLayout>

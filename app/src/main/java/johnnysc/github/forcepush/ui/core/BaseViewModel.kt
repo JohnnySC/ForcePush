@@ -8,7 +8,7 @@ import johnnysc.github.forcepush.core.Abstract
 /**
  * @author Asatryan on 14.08.2021
  **/
-abstract class BaseViewModel<E : Communication<T>, T : Abstract.UiObject>(protected val communication: E) :
+abstract class BaseViewModel<E : Communication<T>, T>(protected val communication: E) :
     ViewModel(), Observe<T> {
 
     override fun observe(owner: LifecycleOwner, observer: Observer<T>) {

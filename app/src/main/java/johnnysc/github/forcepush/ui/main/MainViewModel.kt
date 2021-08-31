@@ -1,6 +1,8 @@
 package johnnysc.github.forcepush.ui.main
 
 import johnnysc.github.forcepush.R
+import johnnysc.github.forcepush.ui.chat.ChatFragment
+import johnnysc.github.forcepush.ui.chats.ChatsFragment
 import johnnysc.github.forcepush.ui.core.BaseViewModel
 import johnnysc.github.forcepush.ui.profile.MyProfileFragment
 import johnnysc.github.forcepush.ui.search.SearchFragment
@@ -19,7 +21,9 @@ class MainViewModel(
 
     private val idMap = mapOf(
         R.id.navigation_profile to MyProfileFragment::class.java,
-        R.id.navigation_search to SearchFragment::class.java
+        R.id.navigation_search to SearchFragment::class.java,
+        R.id.navigation_chats to ChatsFragment::class.java,
+        R.id.chat_screen to ChatFragment::class.java
     )//todo move to some class
 
     fun getFragment(id: Int): BaseFragment<*> {

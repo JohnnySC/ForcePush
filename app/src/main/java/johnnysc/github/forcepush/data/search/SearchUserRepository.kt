@@ -1,7 +1,9 @@
 package johnnysc.github.forcepush.data.search
 
+import android.content.SharedPreferences
 import com.google.firebase.database.*
 import johnnysc.github.forcepush.core.FirebaseDatabaseProvider
+import johnnysc.github.forcepush.core.Save
 import johnnysc.github.forcepush.data.login.UserInitial
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -9,12 +11,16 @@ import kotlin.coroutines.suspendCoroutine
 /**
  * @author Asatryan on 18.08.2021
  **/
-interface SearchUserRepository {
+interface SearchUserRepository : Save<String> {
 
     suspend fun search(query: String): List<SearchData>
 
-    class Base(private val firebaseDatabaseProvider: FirebaseDatabaseProvider) :
-        SearchUserRepository {
+    class Base(
+        private val firebaseDatabaseProvider: FirebaseDatabaseProvider,
+        private val userIdContainer: Save<String>
+    ) : SearchUserRepository {
+
+        override fun save(data: String) = userIdContainer.save(data)
 
         override suspend fun search(query: String): List<SearchData> {
             val users = firebaseDatabaseProvider.provideDatabase()

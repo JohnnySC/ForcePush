@@ -8,10 +8,10 @@ import johnnysc.github.forcepush.core.Abstract
 /**
  * @author Asatryan on 12.07.2021
  **/
-interface Communication<T : Abstract.UiObject> : Observe<T>, Abstract.Mapper.Data<T, Unit> {
+interface Communication<T> : Observe<T>, Abstract.Mapper.Data<T, Unit> {
 
-    abstract class Base<T : Abstract.UiObject> : Communication<T> {
-        private val liveData = MutableLiveData<T>()
+    abstract class Base<T : Any> : Communication<T> {
+        protected val liveData = MutableLiveData<T>()
         override fun map(data: T) {
             liveData.value = data
         }

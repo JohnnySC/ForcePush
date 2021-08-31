@@ -1,9 +1,6 @@
 package johnnysc.github.forcepush.sl.core
 
-import johnnysc.github.forcepush.sl.LoginModule
-import johnnysc.github.forcepush.sl.MainModule
-import johnnysc.github.forcepush.sl.MyProfileModule
-import johnnysc.github.forcepush.sl.SearchModule
+import johnnysc.github.forcepush.sl.*
 
 
 /**
@@ -17,9 +14,11 @@ interface DependencyContainer {
 
         override fun module(feature: Feature) = when (feature) {
             Feature.LOGIN -> LoginModule(coreModule)
-            Feature.MAIN -> MainModule()
+            Feature.MAIN -> MainModule(coreModule)
             Feature.SEARCH -> SearchModule(coreModule)
             Feature.MY_PROFILE -> MyProfileModule(coreModule)
+            Feature.CHATS -> ChatsModule(coreModule)
+            Feature.CHAT -> ChatModule(coreModule)
             else -> throw IllegalStateException("unknown feature $feature")
         }
     }

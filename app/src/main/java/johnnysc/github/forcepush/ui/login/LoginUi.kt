@@ -30,7 +30,7 @@ interface LoginUi : Abstract.UiObject {
 
     data class Failed(private val message: String) : LoginUi {
         override fun map(error: AbstractView.Text, progress: AbstractView, button: AbstractView) {
-            error.show(message)
+            error.map(message)
             progress.hide()
             button.show()
         }

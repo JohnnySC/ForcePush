@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import johnnysc.github.forcepush.core.Match
+import johnnysc.github.forcepush.ui.core.AbstractView
 import johnnysc.github.forcepush.ui.core.BaseViewModel
 
 /**
@@ -27,5 +28,11 @@ abstract class BaseFragment<T : BaseViewModel<*, *>> : Fragment(), Match<String>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().setTitle(titleResId)
+        if (showBottomNavigation())
+            (requireActivity() as AbstractView).show()
+        else
+            (requireActivity() as AbstractView).hide()
     }
+
+    protected open fun showBottomNavigation() = true
 }

@@ -1,8 +1,11 @@
 package johnnysc.github.forcepush.ui.search
 
 import androidx.lifecycle.viewModelScope
+import johnnysc.github.forcepush.R
 import johnnysc.github.forcepush.data.search.SearchUserRepository
 import johnnysc.github.forcepush.ui.core.BaseViewModel
+import johnnysc.github.forcepush.ui.main.NavigationCommunication
+import johnnysc.github.forcepush.ui.main.NavigationUi
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,9 +18,10 @@ class SearchViewModel(
     searchCommunication: SearchCommunication,
     private val mapper: SearchResultsMapper,
     private val repository: SearchUserRepository,
+    private val navigation : NavigationCommunication,
     private val dispatchersIO: CoroutineDispatcher = Dispatchers.IO,
     private val dispatchersMain: CoroutineDispatcher = Dispatchers.Main,
-) : BaseViewModel<SearchCommunication, SearchUserListUi>(searchCommunication), Search {
+) : BaseViewModel<SearchCommunication, SearchUserListUi>(searchCommunication), Search, Chat {
 
     private val delay = Delay { query ->
         viewModelScope.launch(dispatchersIO) { find(query) }
@@ -36,6 +40,11 @@ class SearchViewModel(
             communication.map(SearchUserListUi.Base(listOf(SearchUserUi.Empty())))
             delay.add(query.lowercase())
         }
+    }
+
+    override fun startChatWith(userId: String) {
+        repository.save(userId)
+        navigation.map(NavigationUi(R.id.chat_screen))
     }
 
     private suspend fun find(query: String) {
