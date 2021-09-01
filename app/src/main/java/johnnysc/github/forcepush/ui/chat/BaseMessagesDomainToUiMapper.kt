@@ -17,14 +17,15 @@ class BaseMessagesDomainToUiMapper(private val mapper: MessageDomainToUiMapper<M
 }
 
 interface MessageDomainToUiMapper<T> {
-    fun map(text: String, isMyMessage: Boolean): T
+    fun map(id: String, isRead: Boolean, text: String, isMyMessage: Boolean): T
     fun map(error: String): T
 
     class Base : MessageDomainToUiMapper<MessageUi> {
-        override fun map(text: String, isMyMessage: Boolean) = if (isMyMessage)
-            MessageUi.Mine(text, MyMessageUiState.SENT)//todo also read from domain
-        else
-            MessageUi.FromUser(text)
+        override fun map(id: String, isRead: Boolean, text: String, isMyMessage: Boolean) =
+            if (isMyMessage)
+                MessageUi.Mine(text, if (isRead) MyMessageUiState.READ else MyMessageUiState.SENT)
+            else
+                MessageUi.FromUser(id, text, isRead)
 
         override fun map(error: String) = MessageUi.Mine(error, MyMessageUiState.FAILED)
     }

@@ -4,11 +4,12 @@ import johnnysc.github.forcepush.data.chat.ChatRepository
 import johnnysc.github.forcepush.data.chat.MessagesData
 import johnnysc.github.forcepush.data.chat.MessagesDataMapper
 import johnnysc.github.forcepush.ui.chat.MessagesRealtimeUpdateCallback
+import johnnysc.github.forcepush.ui.chat.ReadMessage
 
 /**
  * @author Asatryan on 25.08.2021
  */
-interface ChatInteractor {
+interface ChatInteractor : ReadMessage {
 
     suspend fun send(message: String): Boolean
 
@@ -43,6 +44,8 @@ interface ChatInteractor {
             this.callback = callback
             repository.startGettingUpdates(dataCallback)
         }
+
+        override fun readMessage(id: String) = repository.readMessage(id)
     }
 }
 

@@ -9,6 +9,7 @@ import com.google.firebase.ktx.Firebase
 import johnnysc.github.forcepush.core.FirebaseDatabaseProvider
 import johnnysc.github.forcepush.core.Read
 import johnnysc.github.forcepush.domain.chat.MessagesDataRealtimeUpdateCallback
+import johnnysc.github.forcepush.ui.chat.ReadMessage
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -16,7 +17,7 @@ import kotlin.coroutines.suspendCoroutine
 /**
  * @author Asatryan on 25.08.2021
  */
-interface ChatRepository {
+interface ChatRepository : ReadMessage {
 
     suspend fun sendMessage(message: String): Boolean
     fun startGettingUpdates(dataCallback: MessagesDataRealtimeUpdateCallback)
@@ -37,7 +38,7 @@ interface ChatRepository {
         private val eventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val data =
-                    snapshot.children.mapNotNull { item -> item.getValue(MessageData.Base::class.java) }
+                    snapshot.children.mapNotNull { item -> Pair(item.key!!, item.getValue(MessageData.Base::class.java)!!) }
                 if (data.isNotEmpty())
                     callback.updateMessages(MessagesData.Success(data))
             }
@@ -64,6 +65,10 @@ interface ChatRepository {
         override fun stopGettingUpdates() {
             chatReference().removeEventListener(eventListener)
             callback = MessagesDataRealtimeUpdateCallback.Empty
+        }
+
+        override fun readMessage(id: String) {
+            chatReference().child(id).child("wasRead").setValue(true)
         }
 
         private fun chatReference() =

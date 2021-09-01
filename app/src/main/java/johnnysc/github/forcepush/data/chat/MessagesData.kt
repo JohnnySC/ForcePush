@@ -7,7 +7,7 @@ sealed class MessagesData {
 
     abstract fun <T> map(mapper: MessagesDataMapper<T>): T
 
-    data class Success(private val messages: List<MessageData>) : MessagesData() {
+    data class Success(private val messages: List<Pair<String, MessageData>>) : MessagesData() {
         override fun <T> map(mapper: MessagesDataMapper<T>): T = mapper.map(messages)
     }
 

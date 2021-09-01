@@ -22,6 +22,8 @@ interface MessageUi {
     fun same(messageUi: MessageUi): Boolean
     fun click(clickListener: ClickListener<MessageUi>)
 
+    fun read(readMessage: ReadMessage)
+
     data class Mine(
         private val text: String,
         private val state: MyMessageUiState
@@ -53,9 +55,15 @@ interface MessageUi {
             if (state == MyMessageUiState.FAILED)
                 clickListener.click(this)
         }
+
+        override fun read(readMessage: ReadMessage) = Unit
     }
 
-    data class FromUser(private val text: String) : MessageUi {
+    data class FromUser(
+        private val id: String,
+        private val text: String,
+        private val isRead: Boolean
+    ) : MessageUi {
         override fun isMyMessage() = false
         override fun map(textMapper: TextMapper.Void) {
             textMapper.map(text)
@@ -63,8 +71,7 @@ interface MessageUi {
 
         override fun newState(state: MyMessageUiState) = this
 
-        override fun same(messageUi: MessageUi) =
-            messageUi is FromUser && text == messageUi.text
+        override fun same(messageUi: MessageUi) = messageUi is FromUser && id == messageUi.id
 
         override fun map(
             textView: AbstractView.Text,
@@ -73,6 +80,10 @@ interface MessageUi {
         ) = Unit
 
         override fun click(clickListener: ClickListener<MessageUi>) = Unit
+
+        override fun read(readMessage: ReadMessage) {
+            if (!isRead) readMessage.readMessage(id)
+        }
     }
 }
 
@@ -85,4 +96,9 @@ enum class MyMessageUiState {
 
 interface TextMapper<T> : Abstract.Mapper.Data<String, T> {
     interface Void : TextMapper<Unit>
+}
+
+interface ReadMessage {
+
+    fun readMessage(id: String)
 }

@@ -14,7 +14,8 @@ import johnnysc.github.forcepush.ui.core.ClickListener
  * @author Asatryan on 26.08.2021
  */
 class ChatAdapter(
-    private val clickListener: ClickListener<MessageUi>
+    private val clickListener: ClickListener<MessageUi>,
+    private val readMessage: ClickListener<MessageUi>
 ) : RecyclerView.Adapter<ChatViewHolder>(),
     Abstract.Mapper.Data<List<MessageUi>, Unit> {
 
@@ -32,7 +33,7 @@ class ChatAdapter(
         ChatViewHolder.UserMessageViewHolder(
             UserMessageLayoutBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
-            )
+            ), readMessage
         )
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) =
@@ -63,8 +64,14 @@ abstract class ChatViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         }
     }
 
-    class UserMessageViewHolder(private val binding: UserMessageLayoutBinding) :
+    class UserMessageViewHolder(
+        private val binding: UserMessageLayoutBinding,
+        private val readMessage: ClickListener<MessageUi>
+    ) :
         ChatViewHolder(binding.root) {
-        override fun bind(item: MessageUi) { item.map(binding.messageTextView) }
+        override fun bind(item: MessageUi) {
+            item.map(binding.messageTextView)
+            readMessage.click(item)
+        }
     }
 }

@@ -9,15 +9,20 @@ interface MessageDomain {
 
     fun <T> map(mapper: MessageDomainToUiMapper<T>): T
 
-    data class MyMessageDomain(private val text: String) : MessageDomain {
+    data class MyMessageDomain(private val text: String, private val isRead: Boolean) :
+        MessageDomain {
         override fun <T> map(mapper: MessageDomainToUiMapper<T>): T {
-            return mapper.map(text, true)
+            return mapper.map("", isRead, text, true)
         }
     }
 
-    data class UserMessageDomain(private val text: String) : MessageDomain {
+    data class UserMessageDomain(
+        private val id: String,
+        private val text: String,
+        private val isRead: Boolean
+    ) : MessageDomain {
         override fun <T> map(mapper: MessageDomainToUiMapper<T>): T {
-            return mapper.map(text, false)
+            return mapper.map(id, isRead, text, false)
         }
     }
 }
