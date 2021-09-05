@@ -13,7 +13,7 @@ interface MessageData {
     fun wasReadByUser(): Boolean
 
     @IgnoreExtraProperties
-    class Base(
+    data class Base(
         val userId: String = "",
         val message: String = "",
         val wasRead: Boolean = false

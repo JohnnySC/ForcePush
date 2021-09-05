@@ -9,4 +9,6 @@
     <dimen name="button_size">48dp</dimen>
     <dimen name="bubble_corner_radius">8dp</dimen>
     <dimen name="size24">24dp</dimen>
+    <dimen name="oval_size">32dp</dimen>
+    <dimen name="chat_height">72dp</dimen>
 </resources>

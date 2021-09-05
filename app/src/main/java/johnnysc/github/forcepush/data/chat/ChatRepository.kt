@@ -28,8 +28,10 @@ interface ChatRepository : ReadMessage {
         private val userIdContainer: Read<String>
     ) : ChatRepository {
 
+        private val myUid = Firebase.auth.currentUser!!.uid
+        private val userId by lazy { userIdContainer.read() }
         private val chatId by lazy {
-            ChatId(Firebase.auth.currentUser!!.uid, userIdContainer.read()).value()
+            ChatId(Pair(myUid, userId)).value()
         }
 
         private var callback: MessagesDataRealtimeUpdateCallback =
@@ -37,8 +39,9 @@ interface ChatRepository : ReadMessage {
 
         private val eventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val data =
-                    snapshot.children.mapNotNull { item -> Pair(item.key!!, item.getValue(MessageData.Base::class.java)!!) }
+                val data = snapshot.children.mapNotNull { item ->
+                    Pair(item.key!!, item.getValue(MessageData.Base::class.java)!!)
+                }
                 if (data.isNotEmpty())
                     callback.updateMessages(MessagesData.Success(data))
             }
@@ -47,6 +50,7 @@ interface ChatRepository : ReadMessage {
         }
 
         override suspend fun sendMessage(message: String): Boolean {
+            checkChatExists()
             val chat = chatReference().push()
             val result = chat.setValue(MessageData.Base(Firebase.auth.currentUser!!.uid, message))
             return handle(result)
@@ -69,6 +73,42 @@ interface ChatRepository : ReadMessage {
 
         override fun readMessage(id: String) {
             chatReference().child(id).child("wasRead").setValue(true)
+        }
+
+        private var chatExists = false
+
+        private suspend fun checkChatExists() {
+            if (!chatExists) {
+                val data = firebaseDatabaseProvider.provideDatabase().child("users")
+                    .child(myUid)
+                    .child("chats")
+                    .get()
+                val exists = handleResult(data)
+                if (!exists)
+                    init()
+                chatExists = exists
+            }
+        }
+
+        private suspend fun handleResult(data: Task<DataSnapshot>) =
+            suspendCoroutine<Boolean> { cont ->
+                data.addOnSuccessListener { snapshot ->
+                    val exists = snapshot.children.mapNotNull { it.key }.contains(userId)
+                    cont.resume(exists)
+                }
+            }
+
+        private fun init() {
+            firebaseDatabaseProvider.provideDatabase().child("users")
+                .child(myUid)
+                .child("chats")
+                .child(userId)
+                .setValue(true)
+            firebaseDatabaseProvider.provideDatabase().child("users")
+                .child(userId)
+                .child("chats")
+                .child(myUid)
+                .setValue(true)
         }
 
         private fun chatReference() =

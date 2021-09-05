@@ -5,9 +5,12 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.30092592592592593" />
         <entry key="app/src/main/res/drawable/my_message_bubble.xml" value="0.2984375" />
+        <entry key="app/src/main/res/drawable/unread_messages_circle.xml" value="0.2984375" />
         <entry key="app/src/main/res/drawable/user_message_bubble.xml" value="0.2777777777777778" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19927536231884058" />
+        <entry key="app/src/main/res/layout/chat_layout.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/my_message_layout.xml" value="0.375" />
         <entry key="app/src/main/res/layout/search_user_result.xml" value="0.2504528985507246" />

@@ -1,6 +1,5 @@
 package johnnysc.github.forcepush.data.search
 
-import android.content.SharedPreferences
 import com.google.firebase.database.*
 import johnnysc.github.forcepush.core.FirebaseDatabaseProvider
 import johnnysc.github.forcepush.core.Save
