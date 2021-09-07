@@ -1,6 +1,9 @@
 package johnnysc.github.forcepush.data.search
 
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import johnnysc.github.forcepush.core.FirebaseDatabaseProvider
 import johnnysc.github.forcepush.core.Save
 import johnnysc.github.forcepush.data.login.UserInitial
@@ -13,6 +16,7 @@ import kotlin.coroutines.suspendCoroutine
 interface SearchUserRepository : Save<String> {
 
     suspend fun search(query: String): List<SearchData>
+    suspend fun initChatWith(userId: String): Boolean
 
     class Base(
         private val firebaseDatabaseProvider: FirebaseDatabaseProvider,
@@ -29,10 +33,27 @@ interface SearchUserRepository : Save<String> {
             return handleResult(users).map { (key, data) ->
                 SearchData.Base(
                     key,
-                    data.name,
+                    if (data.name.isEmpty()) data.login else data.name,
                     data.photoUrl
                 )
             }
+        }
+
+        private val myUid = Firebase.auth.currentUser!!.uid
+
+        override suspend fun initChatWith(userId: String): Boolean = firebaseDatabaseProvider
+            .provideDatabase().child("users-chats").run {
+                var result = handleData(child(myUid).child(userId).setValue(true))
+                if (result) {
+                    result = handleData(child(userId).child(myUid).setValue(true))
+                    if (result) save(userId)
+                }
+                return result
+            }
+
+        private suspend fun handleData(data: Task<Void>) = suspendCoroutine<Boolean> { cont ->
+            data.addOnSuccessListener { cont.resume(true) }
+                .addOnFailureListener { cont.resume(false) }
         }
 
         private suspend fun handleResult(users: Query) =

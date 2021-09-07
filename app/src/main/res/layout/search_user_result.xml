@@ -17,28 +17,14 @@
         android:layout_width="@dimen/margin_16"
         android:layout_height="match_parent"/>
 
-    <LinearLayout
+    <johnnysc.github.forcepush.ui.core.CustomTextView
+        android:id="@+id/userNameTextView"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <johnnysc.github.forcepush.ui.core.CustomTextView
-            android:id="@+id/userNameTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            tools:text="Hovhannes" />
-
-        <johnnysc.github.forcepush.ui.core.CustomTextView
-            android:layout_marginTop="@dimen/margin_16"
-            android:id="@+id/userLoginTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            tools:text="JohnnySC" />
-
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        tools:text="Hovhannes" />
 
     <ImageButton
         android:id="@+id/chatButton"

@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import johnnysc.github.forcepush.core.Delay
 import johnnysc.github.forcepush.core.FirebaseDatabaseProvider
 import johnnysc.github.forcepush.core.Save
 import johnnysc.github.forcepush.data.chat.ChatId
@@ -34,11 +35,11 @@ interface ChatsRepository : Save<String> {
             ChatsDataRealtimeUpdateCallback.Empty
 
         override fun stopGettingUpdates() {
+            chatsDelay.clear()
             callback = ChatsDataRealtimeUpdateCallback.Empty
             firebaseDatabaseProvider.provideDatabase()
-                .child("users")
+                .child("users-chats")
                 .child(myUid)
-                .child("chats")
                 .removeEventListener(chatsEventListener)
             listenersMap.forEach { (chatId, listener) ->
                 firebaseDatabaseProvider.provideDatabase()
@@ -58,9 +59,8 @@ interface ChatsRepository : Save<String> {
         override fun startGettingUpdates(callback: ChatsDataRealtimeUpdateCallback) {
             this.callback = callback
             firebaseDatabaseProvider.provideDatabase()
-                .child("users")
+                .child("users-chats")
                 .child(myUid)
-                .child("chats")
                 .addValueEventListener(chatsEventListener)
         }
 
@@ -85,13 +85,15 @@ interface ChatsRepository : Save<String> {
                     val allMessages = snapshot.children.mapNotNull { message ->
                         message.getValue(MessageData.Base::class.java)
                     }
-                    val notReadMessagesCount = allMessages.filter { messageData ->
-                        messageData.userId != myUid && !messageData.wasRead
-                    }.size
-                    val lastMessage = allMessages.last()
-                    val chatData =
-                        ChatData.Base(chatId.otherUserId(), lastMessage, notReadMessagesCount)
-                    processChat(chatId.value(), chatData)
+                    if (allMessages.isNotEmpty()) {
+                        val notReadMessagesCount = allMessages.filter { messageData ->
+                            messageData.userId != myUid && !messageData.wasRead
+                        }.size
+                        val lastMessage = allMessages.last()
+                        val chatData =
+                            ChatData.Base(chatId.otherUserId(), lastMessage, notReadMessagesCount)
+                        processChat(chatId.value(), chatData)
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) = Unit
@@ -100,10 +102,12 @@ interface ChatsRepository : Save<String> {
             listener
         }
 
+        private val chatsDelay = Delay<List<ChatData>>(200) { callback.updateChats(it) }
+
         private fun processChat(chatId: String, chatData: ChatData) {
             chatsMap[chatId] = chatData
             val chats = chatsMap.map { it.value }
-            callback.updateChats(chats)
+            chatsDelay.add(chats)
         }
 
         private val chatsMap = mutableMapOf<String, ChatData>()
@@ -123,7 +127,7 @@ interface ChatsRepository : Save<String> {
             val userInitial = handleResult(user)
             val userInfo = UserInfoData.Base(
                 userId,
-                if (userInitial.name.isEmpty() || userInitial.name == "null")
+                if (userInitial.name.isEmpty())
                     userInitial.login
                 else
                     userInitial.name,

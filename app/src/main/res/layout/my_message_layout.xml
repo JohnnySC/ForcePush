@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"/>
 
     <johnnysc.github.forcepush.ui.core.CustomTextView
+        android:textIsSelectable="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

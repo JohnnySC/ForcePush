@@ -14,7 +14,10 @@ class MainViewModel(
     communication: NavigationCommunication,
 ) : BaseViewModel<NavigationCommunication, NavigationUi>(communication) {
 
+    private var cachedId = R.id.navigation_profile
+
     fun changeScreen(menuItemId: Int) {
+        cachedId = menuItemId
         //todo save screen id 
         communication.map(NavigationUi(menuItemId))
     }
@@ -32,6 +35,6 @@ class MainViewModel(
     }
 
     fun init() {
-        changeScreen(R.id.navigation_profile) //todo get from navigation cache
+        changeScreen(cachedId) //todo get from navigation cache
     }
 }

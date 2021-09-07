@@ -23,12 +23,17 @@ interface Auth {
         class Base : AuthResultMapper<UserInitial> {
 
             override fun map(profile: Map<String, Any>) = UserInitial(
-                profile["name"].toString(),
-                profile["login"].toString().lowercase(),
-                profile["email"].toString(),
-                profile["bio"].toString(),
-                profile["avatar_url"].toString()
+                profile["name"].makeString(),
+                profile["login"].makeString().lowercase(),
+                profile["email"].makeString(),
+                profile["bio"].makeString(),
+                profile["avatar_url"].makeString()
             )
         }
     }
+}
+
+fun Any?.makeString(): String {
+    val toString = toString()
+    return if (toString == "null") "" else toString
 }
