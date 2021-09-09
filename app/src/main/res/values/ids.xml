@@ -2,4 +2,5 @@
 <resources>
     <item name="chat_screen" type="id"/>
     <item name="create_group_screen" type="id"/>
+    <item name="group_chat_screen" type="id"/>
 </resources>
