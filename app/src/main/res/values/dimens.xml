@@ -2,7 +2,9 @@
 <resources>
     <dimen name="search_result_height">72dp</dimen>
     <dimen name="avatar_size">64dp</dimen>
+    <dimen name="group_avatar_size">48dp</dimen>
     <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_32">32dp</dimen>
     <dimen name="margin_72">72dp</dimen>
     <dimen name="margin_8">8dp</dimen>
     <dimen name="profile_avatar_size">180dp</dimen>

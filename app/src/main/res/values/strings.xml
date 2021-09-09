@@ -5,7 +5,7 @@
     <string name="title_search">Search</string>
     <string name="title_profile">Profile</string>
     <string name="no_results">Nothing found</string>
-    <string name="search_users">Search users by github account name</string>
+    <string name="search_users">Search users by github account name \n or group by its name</string>
     <string name="sign_out">sign out</string>
     <string name="title_chats">Chats</string>
     <string name="title_chat">Chat</string>

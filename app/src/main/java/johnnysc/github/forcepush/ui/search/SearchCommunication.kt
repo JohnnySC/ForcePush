@@ -5,6 +5,6 @@ import johnnysc.github.forcepush.ui.core.Communication
 /**
  * @author Asatryan on 18.08.2021
  **/
-interface SearchCommunication : Communication<SearchUserListUi> {
-    class Base : Communication.Base<SearchUserListUi>(), SearchCommunication
+interface SearchCommunication : Communication<SearchResultListUi> {
+    class Base : Communication.Base<SearchResultListUi>(), SearchCommunication
 }

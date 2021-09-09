@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/search_result_height"
+    android:layout_marginHorizontal="@dimen/margin_16"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <johnnysc.github.forcepush.ui.core.CustomImageView
+        android:id="@+id/avatarImageView"
+        android:layout_width="@dimen/group_avatar_size"
+        android:layout_height="@dimen/group_avatar_size"
+        android:src="@drawable/ic_group_black_48" />
+
+    <Space
+        android:layout_width="@dimen/margin_32"
+        android:layout_height="match_parent" />
+
+    <johnnysc.github.forcepush.ui.core.CustomTextView
+        android:id="@+id/userNameTextView"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        tools:text="Android group name" />
+
+    <ImageButton
+        android:id="@+id/chatButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:padding="@dimen/margin_16"
+        android:src="@drawable/ic_chat_black_24"
+        tools:ignore="ContentDescription" />
+
+</LinearLayout>

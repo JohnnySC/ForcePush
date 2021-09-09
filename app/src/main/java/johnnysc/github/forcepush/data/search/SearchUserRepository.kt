@@ -31,7 +31,7 @@ interface SearchUserRepository : Save<String> {
                 .orderByChild("login")
                 .equalTo(query)
             return handleResult(users).map { (key, data) ->
-                SearchData.Base(
+                SearchData.User(
                     key,
                     if (data.name.isEmpty()) data.login else data.name,
                     data.photoUrl
