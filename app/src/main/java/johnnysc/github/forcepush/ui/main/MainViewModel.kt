@@ -4,7 +4,6 @@ import johnnysc.github.forcepush.R
 import johnnysc.github.forcepush.ui.chat.ChatFragment
 import johnnysc.github.forcepush.ui.chats.ChatsFragment
 import johnnysc.github.forcepush.ui.core.BaseViewModel
-import johnnysc.github.forcepush.ui.groups.GroupChatFragment
 import johnnysc.github.forcepush.ui.groups.create.CreateGroupFragment
 import johnnysc.github.forcepush.ui.profile.MyProfileFragment
 import johnnysc.github.forcepush.ui.search.SearchFragment

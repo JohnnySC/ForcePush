@@ -52,7 +52,7 @@ class ChatsViewModel(
 
     override fun startChatWith(userId: String) {
         interactor.save(userId)
-        navigation.map(NavigationUi(R.id.chat_screen))
+        navigation.map(NavigationUi.BaseLevel(R.id.chat_screen))
     }
 
     fun startGettingUpdates() {

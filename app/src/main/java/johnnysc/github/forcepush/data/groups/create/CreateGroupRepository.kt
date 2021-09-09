@@ -8,7 +8,6 @@ import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import johnnysc.github.forcepush.core.FirebaseDatabaseProvider
-import johnnysc.github.forcepush.data.profile.GroupInitial
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -28,7 +27,7 @@ interface CreateGroupRepository {
 
         override suspend fun createGroup(groupName: String): Boolean {
             val ref = firebaseDatabaseProvider.provideDatabase().child("groups").push()
-            val result = ref.setValue(GroupInitial(uid, groupName.lowercase()))
+            val result = ref.setValue(GroupItem(uid, groupName.lowercase()))
             return handle(result)
         }
 

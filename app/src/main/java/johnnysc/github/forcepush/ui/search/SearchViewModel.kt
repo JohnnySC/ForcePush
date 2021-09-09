@@ -46,7 +46,7 @@ class SearchViewModel(
     override fun startChatWith(userId: String) {
         viewModelScope.launch(dispatchersIO) {
             if (repository.initChatWith(userId))
-                withContext(dispatchersMain) { navigation.map(NavigationUi(R.id.chat_screen)) }
+                withContext(dispatchersMain) { navigation.map(NavigationUi.BaseLevel(R.id.chat_screen)) }
             //todo else handle error
         }
     }
