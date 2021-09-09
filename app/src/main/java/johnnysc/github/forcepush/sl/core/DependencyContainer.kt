@@ -19,6 +19,7 @@ interface DependencyContainer {
             Feature.MY_PROFILE -> MyProfileModule(coreModule)
             Feature.CHATS -> ChatsModule(coreModule)
             Feature.CHAT -> ChatModule(coreModule)
+            Feature.CREATE_GROUP -> CreateGroupModule(coreModule)
             else -> throw IllegalStateException("unknown feature $feature")
         }
     }

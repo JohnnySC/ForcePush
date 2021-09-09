@@ -14,6 +14,7 @@ class MyProfileModule(private val coreModule: CoreModule) : BaseModule<MyProfile
 
     override fun viewModel() = MyProfileViewModel(
         MyProfileCommunication.Base(),
+        coreModule.navigationCommunication(),
         MyProfileRepository.Base(coreModule.firebaseDatabaseProvider()),
         MyProfileData.MyProfileMapper.Base()
     )

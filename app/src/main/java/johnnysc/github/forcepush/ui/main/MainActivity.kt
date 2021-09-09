@@ -30,14 +30,14 @@ class MainActivity : BaseActivity(), AbstractView {
 
         viewModel.observe(this) {
             binding.bottomNavView.setOnItemSelectedListener(null)
-            val isChatScreen = it.id == R.id.chat_screen
-            if (!isChatScreen)//todo make better
-                binding.bottomNavView.selectedItemId = it.id
-            val fragment = viewModel.getFragment(it.id)
+            val isBaseLevel = it.isBaseLevel()
+            if (isBaseLevel)
+                binding.bottomNavView.selectedItemId = it.data()
+            val fragment = viewModel.getFragment(it.data())
             if (supportFragmentManager.canReplace(fragment)) {
                 val transaction = supportFragmentManager.beginTransaction()
                     .replace(R.id.container, fragment)
-                if (isChatScreen)
+                if (!isBaseLevel)
                     transaction.addToBackStack(fragment.name())
                 transaction.commit()
             }

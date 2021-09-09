@@ -10,4 +10,5 @@
     <string name="title_chats">Chats</string>
     <string name="title_chat">Chat</string>
     <string name="me">Me</string>
+    <string name="create_group">Create group</string>
 </resources>

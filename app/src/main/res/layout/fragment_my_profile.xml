@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:background="@color/white"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:gravity="center_horizontal"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <johnnysc.github.forcepush.ui.core.CustomImageView
@@ -15,33 +14,49 @@
         android:scaleType="fitCenter" />
 
     <johnnysc.github.forcepush.ui.core.CustomTextView
-        android:layout_margin="@dimen/margin_16"
-        tools:text="Visible name"
         android:id="@+id/nameTextview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        android:layout_margin="@dimen/margin_16"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        tools:text="Visible name" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <johnnysc.github.forcepush.ui.core.CustomTextView
-            android:id="@+id/loginTextView"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/margin_16"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            tools:text="github.com/login" />
+            android:orientation="vertical">
+
+            <johnnysc.github.forcepush.ui.core.CustomTextView
+                android:id="@+id/loginTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/margin_16"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                tools:text="github.com/login" />
+
+            <johnnysc.github.forcepush.ui.core.CustomButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:id="@+id/createGroupButton"
+                android:text="@string/create_group"
+                android:layout_marginHorizontal="@dimen/margin_8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
     </ScrollView>
 
     <Button
-        android:layout_gravity="end"
         android:id="@+id/signOutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="end"
         android:layout_margin="@dimen/margin_16"
         android:text="@string/sign_out" />
 
