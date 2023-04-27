@@ -4,6 +4,7 @@ import johnnysc.github.forcepush.R
 import johnnysc.github.forcepush.ui.chat.ChatFragment
 import johnnysc.github.forcepush.ui.chats.ChatsFragment
 import johnnysc.github.forcepush.ui.core.BaseViewModel
+import johnnysc.github.forcepush.ui.groups.chat.GroupChatFragment
 import johnnysc.github.forcepush.ui.groups.create.CreateGroupFragment
 import johnnysc.github.forcepush.ui.profile.MyProfileFragment
 import johnnysc.github.forcepush.ui.search.SearchFragment
@@ -25,7 +26,8 @@ class MainViewModel(
         R.id.navigation_search to SearchFragment::class.java,
         R.id.navigation_chats to ChatsFragment::class.java,
         R.id.chat_screen to ChatFragment::class.java,
-        R.id.create_group_screen to CreateGroupFragment::class.java
+        R.id.create_group_screen to CreateGroupFragment::class.java,
+        R.id.group_chat_screen to GroupChatFragment::class.java
     )//todo move to some class
 
     fun getFragment(id: Int): BaseFragment<*> {

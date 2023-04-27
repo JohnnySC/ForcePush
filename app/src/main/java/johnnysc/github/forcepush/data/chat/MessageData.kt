@@ -8,6 +8,7 @@ import com.google.firebase.ktx.Firebase
  * @author Asatryan on 25.08.2021
  */
 interface MessageData {
+    fun obtainUserId() : String
     fun messageIsMine(): Boolean
     fun messageBody(): String
     fun wasReadByUser(): Boolean
@@ -18,6 +19,7 @@ interface MessageData {
         val message: String = "",
         val wasRead: Boolean = false
     ) : MessageData {
+        override fun obtainUserId() = userId
         override fun messageIsMine() = userId == Firebase.auth.currentUser?.uid
         override fun messageBody() = message
         override fun wasReadByUser() = wasRead

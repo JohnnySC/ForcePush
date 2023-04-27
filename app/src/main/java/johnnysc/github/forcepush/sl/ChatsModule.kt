@@ -4,6 +4,7 @@ import johnnysc.github.forcepush.data.chat.UserId
 import johnnysc.github.forcepush.data.chats.ChatDataMapper
 import johnnysc.github.forcepush.data.chats.ChatsRepository
 import johnnysc.github.forcepush.data.chats.UserChatDataMapper
+import johnnysc.github.forcepush.data.search.GroupId
 import johnnysc.github.forcepush.domain.chats.ChatDomainMapper
 import johnnysc.github.forcepush.domain.chats.ChatsInteractor
 import johnnysc.github.forcepush.domain.chats.UserChatDomainMapper
@@ -24,7 +25,8 @@ class ChatsModule(
         ChatsInteractor.Base(
             ChatsRepository.Base(
                 coreModule.firebaseDatabaseProvider(),
-                UserId(coreModule.provideSharedPreferences())
+                UserId(coreModule.provideSharedPreferences()),
+                GroupId(coreModule.provideSharedPreferences())
             ),
             ChatDataMapper.Base(),
             UserChatDataMapper.Base()

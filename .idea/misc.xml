@@ -17,9 +17,11 @@
         <entry key="app/src/main/res/layout/fragment_my_profile.xml" value="0.2491349480968858" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/my_group_layout.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/my_group_message_layout.xml" value="0.335" />
         <entry key="app/src/main/res/layout/my_message_layout.xml" value="0.375" />
         <entry key="app/src/main/res/layout/search_group_result.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/layout/search_user_result.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/user_group_message_layout.xml" value="0.30512820512820515" />
         <entry key="app/src/main/res/layout/user_message_layout.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/menu/main_bottom_nav_menu.xml" value="0.28229166666666666" />
       </map>

@@ -8,6 +8,7 @@ import johnnysc.github.forcepush.ui.chats.ChatsRealtimeUpdateCallback
  * @author Asatryan on 02.09.2021
  */
 interface ChatsInteractor : Save<String> {
+    fun saveGroupId(groupId: String)
     fun stopGettingUpdates()
     fun startGettingUpdates(callback: ChatsRealtimeUpdateCallback)
     suspend fun userInfo(userId: String): UserChatDomain
@@ -25,6 +26,8 @@ interface ChatsInteractor : Save<String> {
                 callback.updateChats(chatDataList.map { it.map(mapper) })
             }
         }
+
+        override fun saveGroupId(groupId: String) = repository.saveGroupId(groupId)
 
         override fun stopGettingUpdates() {
             callback = ChatsRealtimeUpdateCallback.Empty

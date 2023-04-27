@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import johnnysc.github.forcepush.ui.chat.ChatViewModel
 import johnnysc.github.forcepush.ui.chats.ChatsViewModel
+import johnnysc.github.forcepush.ui.groups.chat.GroupChatViewModel
 import johnnysc.github.forcepush.ui.groups.create.CreateGroupViewModel
 import johnnysc.github.forcepush.ui.login.LoginViewModel
 import johnnysc.github.forcepush.ui.main.MainViewModel
@@ -25,6 +26,7 @@ class ViewModelsFactory(
         put(ChatsViewModel::class.java, Feature.CHATS)
         put(ChatViewModel::class.java, Feature.CHAT)
         put(CreateGroupViewModel::class.java, Feature.CREATE_GROUP)
+        put(GroupChatViewModel::class.java, Feature.GROUP_CHAT)
     }
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

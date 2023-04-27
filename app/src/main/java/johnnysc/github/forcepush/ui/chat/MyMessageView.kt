@@ -41,4 +41,10 @@ class MyMessageView : androidx.appcompat.widget.AppCompatImageView, MessageState
 
 interface MessageState : AbstractView {
     fun show(state: MyMessageUiState)
+
+    class Empty : MessageState {
+        override fun show(state: MyMessageUiState) = Unit
+        override fun show() = Unit
+        override fun hide() = Unit
+    }
 }

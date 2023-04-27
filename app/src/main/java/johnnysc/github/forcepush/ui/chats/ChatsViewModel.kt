@@ -52,7 +52,12 @@ class ChatsViewModel(
 
     override fun startChatWith(userId: String) {
         interactor.save(userId)
-        navigation.map(NavigationUi.BaseLevel(R.id.chat_screen))
+        navigation.map(NavigationUi.SecondLevel(R.id.chat_screen))
+    }
+
+    override fun startGroupChat(groupId: String) {
+        interactor.saveGroupId(groupId)
+        navigation.map(NavigationUi.SecondLevel(R.id.group_chat_screen))
     }
 
     fun startGettingUpdates() {

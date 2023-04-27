@@ -18,10 +18,22 @@ interface SearchInteractor {
         private val searchGroupRepository: SearchGroupRepository
     ) : SearchInteractor {
 
-        override suspend fun search(query: String): List<SearchData> {
-            val data = ArrayList(searchGroupRepository.search(query))
-            data.addAll(searchUserRepository.search(query))
-            return data
+        override suspend fun search(query: String) = makeResults(
+            searchGroupRepository.search(query),
+            searchUserRepository.search(query)
+        )
+
+        private fun makeResults(
+            groups: List<SearchData>,
+            users: List<SearchData>
+        ) = if (groups.isEmpty()) {
+            users
+        } else {
+            if (users.isEmpty())
+                groups
+            else {
+                ArrayList(groups).apply { addAll(users) }
+            }
         }
 
         override suspend fun initChat(groupId: String) =

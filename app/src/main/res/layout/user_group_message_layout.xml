@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <johnnysc.github.forcepush.ui.core.CustomImageView
+        android:id="@+id/avatarImageView"
+        android:layout_width="@dimen/group_avatar_size"
+        android:layout_height="@dimen/group_avatar_size"
+        android:layout_marginHorizontal="@dimen/margin_8"
+        app:layout_constraintBottom_toBottomOf="@id/messageTextView"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <johnnysc.github.forcepush.ui.core.CustomTextView
+        android:id="@+id/userNameTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_8"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textColor="@color/teal_700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/avatarImageView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="UserName" />
+
+    <johnnysc.github.forcepush.ui.core.CustomTextView
+        android:id="@+id/messageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center"
+        android:layout_marginStart="@dimen/margin_8"
+        android:layout_marginTop="@dimen/margin_8"
+        android:background="@drawable/user_message_bubble"
+        android:maxWidth="300dp"
+        android:padding="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textIsSelectable="true"
+        app:layout_constraintStart_toEndOf="@id/avatarImageView"
+        app:layout_constraintTop_toBottomOf="@id/userNameTextView"
+        tools:text="Hello, how are you doing there? Let's suppose I write you too long message" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/margin_8"
+        app:layout_constraintTop_toBottomOf="@id/messageTextView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

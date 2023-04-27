@@ -20,19 +20,22 @@ import kotlin.coroutines.suspendCoroutine
  * @author Asatryan on 02.09.2021
  */
 interface ChatsRepository : Save<String> {
-
+    fun saveGroupId(groupId: String)
     fun stopGettingUpdates()
     fun startGettingUpdates(callback: ChatsDataRealtimeUpdateCallback)
     suspend fun userInfo(userId: String): UserInfoData
 
     class Base(//todo use cloudDataSource
         private val firebaseDatabaseProvider: FirebaseDatabaseProvider,
-        private val userIdContainer: Save<String>
+        private val userIdContainer: Save<String>,
+        private val groupIdContainer: Save<String>,
     ) : ChatsRepository {
         private val myUid = Firebase.auth.currentUser!!.uid
 
         private var callback: ChatsDataRealtimeUpdateCallback =
             ChatsDataRealtimeUpdateCallback.Empty
+
+        override fun saveGroupId(groupId: String) = groupIdContainer.save(groupId)
 
         override fun stopGettingUpdates() {
             chatsDelay.clear()

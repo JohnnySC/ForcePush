@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <johnnysc.github.forcepush.ui.core.CustomProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/size24"
+        android:layout_height="@dimen/size24"
+        android:layout_marginEnd="@dimen/margin_8"
+        app:layout_constraintBottom_toBottomOf="@id/messageTextView"
+        app:layout_constraintEnd_toStartOf="@id/messageTextView" />
+
+    <johnnysc.github.forcepush.ui.chat.MyMessageView
+        android:id="@+id/iconView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_double_check_black_24"
+        app:layout_constraintBottom_toBottomOf="@id/messageTextView"
+        app:layout_constraintEnd_toStartOf="@id/messageTextView" />
+
+    <johnnysc.github.forcepush.ui.core.CustomTextView
+        android:id="@+id/messageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginEnd="@dimen/margin_8"
+        android:layout_marginBottom="@dimen/margin_8"
+        android:background="@drawable/my_message_bubble"
+        android:maxWidth="300dp"
+        android:padding="@dimen/margin_8"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textIsSelectable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/avatarImageView"
+        tools:text="Hello, how are you doing there? Hello, how are you doing there? Hello, how are you doing there? Hello, how are you doing there? Hello, how are you doing there? Hello, how are you doing there?" />
+
+    <johnnysc.github.forcepush.ui.core.CustomImageView
+        android:id="@+id/avatarImageView"
+        android:layout_width="@dimen/group_avatar_size"
+        android:layout_height="@dimen/group_avatar_size"
+        android:layout_marginHorizontal="@dimen/margin_8"
+        app:layout_constraintBottom_toBottomOf="@id/messageTextView"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/margin_8"
+        app:layout_constraintTop_toBottomOf="@id/avatarImageView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

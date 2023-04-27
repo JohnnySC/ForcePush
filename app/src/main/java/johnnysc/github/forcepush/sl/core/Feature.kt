@@ -10,5 +10,6 @@ enum class Feature {
     MY_PROFILE,
     CHATS,
     CHAT,
-    CREATE_GROUP
+    CREATE_GROUP,
+    GROUP_CHAT
 }
