@@ -1,43 +1,50 @@
 package johnnysc.github.forcepush.ui.login
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import johnnysc.github.forcepush.domain.login.LoginInteractor
 import johnnysc.github.forcepush.ui.core.BaseViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * @author Asatryan on 14.08.2021
- **/
+ * @author Asatryan on 27.04.2023
+ */
 class LoginViewModel(
     communication: LoginCommunication,
-    private val interactor: LoginInteractor,
-    private val dispatchersIO: CoroutineDispatcher = Dispatchers.IO,
-    private val dispatchersMain: CoroutineDispatcher = Dispatchers.Main,
-) : BaseViewModel<LoginCommunication, LoginUi>(communication) {
+    private val interactor: LoginInteractor
+) : BaseViewModel<LoginCommunication, LoginUi>(communication), HandleTask {
 
-    fun login(engine: LoginEngine) {
-        handleResult { interactor.login(engine) }
-    }
+    val liveDataEngine = MutableLiveData<LoginEngine>()
 
-    fun init(engine: LoginEngine) {
+    fun init() {
         if (interactor.authorized())
-            handleResult { interactor.signIn(engine) }
+            liveDataEngine.value = LoginEngine.SignIn(this)
         else
             communication.map(LoginUi.Initial)
     }
 
-    private fun handleResult(block: suspend () -> Auth) {
+    fun login() {
+        liveDataEngine.value = LoginEngine.Login(this)
+    }
+
+    override fun handle(authResultBlock: suspend () -> Auth) {
         communication.map(LoginUi.Progress())
-        viewModelScope.launch(dispatchersIO) {
-            val result = block()
-            val resultUi = if (result is Auth.Fail)
-                LoginUi.Failed(result.e.message ?: "")//todo improve it
-            else
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = interactor.auth(authResultBlock)
+            val resultUi = if (result.isSuccessful())
                 LoginUi.Success
-            withContext(dispatchersMain) { communication.map(resultUi) }
+            else
+                LoginUi.Failed((result as Auth.Fail).e.message ?: "")
+            withContext(Dispatchers.Main) {
+                communication.map(resultUi)
+            }
         }
     }
+}
+
+interface HandleTask {
+
+    fun handle(authResultBlock: suspend () -> Auth)
 }

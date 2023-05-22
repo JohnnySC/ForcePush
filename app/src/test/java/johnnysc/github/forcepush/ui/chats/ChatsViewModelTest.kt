@@ -54,7 +54,7 @@ class ChatsViewModelTest {
     }
 
     private inner class TestNavigation : NavigationCommunication {
-        var navigationUi: NavigationUi = NavigationUi()
+        lateinit var navigationUi: NavigationUi
         override fun observe(owner: LifecycleOwner, observer: Observer<NavigationUi>) = Unit
 
         override fun map(data: NavigationUi) {
@@ -64,6 +64,10 @@ class ChatsViewModelTest {
 
     private inner class TestInteractor : ChatsInteractor {
         var stringSaved = ""
+        override fun saveGroupId(groupId: String) {
+            TODO("Not yet implemented")
+        }
+
         override fun stopGettingUpdates() = Unit
 
         override fun startGettingUpdates(callback: ChatsRealtimeUpdateCallback) {

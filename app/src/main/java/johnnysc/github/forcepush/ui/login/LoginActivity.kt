@@ -14,13 +14,19 @@ class LoginActivity : BaseActivity() {
         val binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val viewModel = viewModel(LoginViewModel::class.java, this)
-        viewModel.observe(this) {
-            if (it is LoginUi.Success)
-                switchToMain()
-            else
-                it.map(binding.errorTextView, binding.progressBar, binding.loginButton)
+
+        viewModel.liveDataEngine.observe(this) {
+            it.handle(this)
         }
-        binding.loginButton.setOnClickListener { viewModel.login(LoginEngine.Login(this)) }
-        viewModel.init(LoginEngine.SignIn(this))
+        viewModel.observe(this) {
+            it.navigate(this)
+            it.map(binding.errorTextView, binding.progressBar, binding.loginButton)
+        }
+
+        binding.loginButton.setOnClickListener {
+            viewModel.login()
+        }
+
+        viewModel.init()
     }
 }

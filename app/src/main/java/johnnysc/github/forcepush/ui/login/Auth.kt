@@ -1,5 +1,6 @@
 package johnnysc.github.forcepush.ui.login
 
+import johnnysc.github.forcepush.data.login.LoginRepository
 import johnnysc.github.forcepush.data.login.UserInitial
 
 /**
@@ -7,15 +8,24 @@ import johnnysc.github.forcepush.data.login.UserInitial
  */
 interface Auth {
 
-    fun <T> map(mapper: AuthResultMapper<T>): T
+    fun isSuccessful(): Boolean = false
+    suspend fun save(repository: LoginRepository) = Unit
 
-    data class Base(private val profile: Map<String, Any>) : Auth {
-        override fun <T> map(mapper: AuthResultMapper<T>): T = mapper.map(profile)
+    object Empty : Auth
+
+    data class Base(
+        private val profile: Map<String, Any>,
+        private val mapper: AuthResultMapper<UserInitial> = AuthResultMapper.Base()
+    ) : Auth {
+
+        override suspend fun save(repository: LoginRepository) {
+            repository.saveUser(mapper.map(profile))
+        }
+
+        override fun isSuccessful() = true
     }
 
-    data class Fail(val e: Exception) : Auth {
-        override fun <T> map(mapper: AuthResultMapper<T>): T = mapper.map(emptyMap())//todo
-    }
+    data class Fail(val e: Exception) : Auth
 
     interface AuthResultMapper<T> {
         fun map(profile: Map<String, Any>): T

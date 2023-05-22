@@ -4,7 +4,6 @@ import johnnysc.github.forcepush.data.login.LoginRepository
 import johnnysc.github.forcepush.domain.login.LoginInteractor
 import johnnysc.github.forcepush.sl.core.BaseModule
 import johnnysc.github.forcepush.sl.core.CoreModule
-import johnnysc.github.forcepush.ui.login.Auth
 import johnnysc.github.forcepush.ui.login.LoginCommunication
 import johnnysc.github.forcepush.ui.login.LoginViewModel
 
@@ -16,8 +15,7 @@ class LoginModule(private val coreModule: CoreModule) : BaseModule<LoginViewMode
     override fun viewModel() = LoginViewModel(
         LoginCommunication.Base(),
         LoginInteractor.Base(
-            LoginRepository.Base(coreModule.firebaseDatabaseProvider()),
-            Auth.AuthResultMapper.Base()
+            LoginRepository.Base(coreModule.firebaseDatabaseProvider())
         )
     )
 }
